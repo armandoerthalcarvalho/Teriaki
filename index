@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍣 TeriakiAbout</title>
+    <meta name="description" content="Teriaki: Gerenciador de vida pessoal completo, gratuito e offline. Organize suas notas, tarefas, eventos, hábitos e muito mais.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sushi-red: #FF6B6B;
+            --wasabi-green: #51CF66;
+            --ginger-orange: #FF922B;
+            --soy-dark: #1A1A2E;
+            --rice-white: #FFF5E4;
+            --nori-black: #0F1419;
+            --salmon-pink: #FFA8A8;
+            --miso-tan: #D4A574;
+            --bg-primary: #0F1419;
+            --bg-card: rgba(30, 30, 46, 0.7);
+            --text-primary: #FFF5E4;
+            --text-secondary: #B8B8B8;
+            --accent: #FF6B6B;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(81, 207, 102, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 146, 43, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(10%, 10%); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--nori-black);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--sushi-red);
+            border-radius: 10px;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 20, 25, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 0;
+            z-index: 1000;
+            animation: slideDown 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo-emoji {
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--sushi-red);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 10rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-emoji {
+            font-size: 8rem;
+            display: inline-block;
+            animation: scaleIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--sushi-red), var(--ginger-orange));
+            color: white;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--sushi-red), var(--ginger-orange), var(--wasabi-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .hero-description {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Section */
+        .section {
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .section-title-emoji {
+            font-size: 3rem;
+        }
+
+        /* About Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .about-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.4s ease,
+                        border-color 0.4s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-12px) rotate(1deg);
+            box-shadow: 0 30px 60px rgba(255, 107, 107, 0.3);
+            border-color: var(--sushi-red);
+        }
+
+        .about-card-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1.25rem;
+            display: block;
+        }
+
+        .about-card h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--ginger-orange);
+        }
+
+        .about-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Features Grid */
+        .features-section {
+            background: rgba(26, 26, 46, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .feature-item:hover {
+            transform: scale(1.08);
+            border-color: var(--wasabi-green);
+            box-shadow: 0 15px 40px rgba(81, 207, 102, 0.25);
+        }
+
+        .feature-emoji {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Download Cards */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 2rem;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .download-card:hover::before {
+            left: 100%;
+        }
+
+        .download-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-color: var(--sushi-red);
+            box-shadow: 0 40px 80px rgba(255, 107, 107, 0.4);
+        }
+
+        .download-card.current {
+            border-color: var(--ginger-orange);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 146, 43, 0.1));
+        }
+
+        .download-version {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sushi-red), var(--ginger-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        .download-label {
+            display: inline-block;
+            background: var(--ginger-orange);
+            color: var(--nori-black);
+            padding: 0.4rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-size {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .download-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .download-features li {
+            padding: 0.75rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .download-features li::before {
+            content: '✓';
+            color: var(--wasabi-green);
+            font-weight: bold;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--sushi-red), var(--ginger-orange));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .download-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.5);
+        }
+
+        .download-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Download Instructions */
+        .download-instructions {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(81, 207, 102, 0.1), rgba(255, 146, 43, 0.1));
+            border: 1px solid rgba(255, 146, 43, 0.3);
+            border-radius: 1.5rem;
+        }
+
+        .download-instructions h3 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--ginger-orange);
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+
+        /* News Timeline */
+        .news-timeline {
+            max-width: 900px;
+            margin: 3rem auto 0;
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .news-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--sushi-red), var(--ginger-orange), var(--wasabi-green));
+        }
+
+        .news-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .news-item::before {
+            content: '🍣';
+            position: absolute;
+            left: -3.2rem;
+            top: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--soy-dark);
+            border: 3px solid var(--sushi-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .news-item:hover {
+            transform: translateX(10px);
+            border-color: var(--sushi-red);
+        }
+
+        .news-date {
+            color: var(--ginger-orange);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .news-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .news-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .news-badge {
+            display: inline-block;
+            background: rgba(81, 207, 102, 0.2);
+            color: var(--wasabi-green);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+
+
+        /* License Cards */
+        .license-intro {
+            text-align: center;
+            color: var(--text-secondary);
+            max-width: 850px;
+            margin: 0 auto 3rem;
+            line-height: 1.9;
+            font-size: 1.1rem;
+        }
+
+        .license-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .license-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+        }
+
+        .license-card:hover {
+            transform: translateY(-8px) rotate(-1deg);
+            border-color: var(--wasabi-green);
+            box-shadow: 0 20px 50px rgba(81, 207, 102, 0.3);
+        }
+
+        .license-card.recommended {
+            border-color: var(--ginger-orange);
+            background: linear-gradient(135deg, rgba(255, 146, 43, 0.1), rgba(255, 107, 107, 0.05));
+        }
+
+        .license-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .license-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .license-tag {
+            display: inline-block;
+            background: var(--ginger-orange);
+            color: var(--nori-black);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 1.25rem;
+        }
+
+        .license-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .license-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .license-list li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .license-pros li::before {
+            content: '✓';
+            color: var(--wasabi-green);
+            font-weight: bold;
+        }
+
+        .license-cons li::before {
+            content: '✗';
+            color: var(--sushi-red);
+            font-weight: bold;
+        }
+
+        /* Call to Action */
+        .cta-box {
+            text-align: center;
+            margin-top: 3.5rem;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(255, 146, 43, 0.15), rgba(255, 107, 107, 0.15));
+            border: 2px solid var(--ginger-orange);
+            border-radius: 1.5rem;
+        }
+
+        .cta-box h3 {
+            font-family: 'Crimson Pro', serif;
+            color: var(--ginger-orange);
+            font-size: 2.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            max-width: 750px;
+            margin: 0 auto 2rem;
+            line-height: 1.9;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(10, 15, 20, 0.8);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            margin-top: 6rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--ginger-orange);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .footer-emoji {
+            font-size: 1.5rem;
+            margin: 0 0.25rem;
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-emoji {
+                font-size: 5rem;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2.25rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 20, 25, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1rem;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid,
+            .license-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-timeline {
+                padding-left: 3rem;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="#" class="logo">
+                    <span class="logo-emoji">🍣</span>
+                    <span>TeriakiAbout</span>
+                </a>
+                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#recursos">Recursos</a></li>
+                    <li><a href="#download">Download</a></li>
+                    <li><a href="#noticias">Notícias</a></li>
+                    <li><a href="#licenca">Licença</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-emoji">🍣</div>
+            <div class="version-badge">v2.0.0 NOVA GERAÇÃO</div>
+            <h1>Teriaki</h1>
+            <p class="hero-description">
+                Seu gerenciador de vida pessoal completo, gratuito e offline. Organize notas, tarefas, eventos, hábitos e muito mais em um único lugar.
+            </p>
+        </div>
+    </section>
+
+    <section id="sobre" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-title-emoji">📚</span>
+                <span>O que é o Teriaki?</span>
+            </h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <span class="about-card-emoji">🎯</span>
+                    <h3>All-in-One</h3>
+                    <p>Uma única ferramenta para gerenciar toda sua vida: notas, tarefas, calendário, pomodoro, flashcards, quizzes e muito mais. Tudo integrado e sincronizado.</p>
+                </div>
+                <div class="about-card">
+                    <span class="about-card-emoji">🔒</span>
+                    <h3>100% Privado</h3>
+                    <p>Seus dados ficam apenas no seu dispositivo. Sem servidores, sem contas, sem rastreamento. Privacidade total e controle absoluto das suas informações.</p>
+                </div>
+                <div class="about-card">
+                    <span class="about-card-emoji">⚡</span>
+                    <h3>Offline First</h3>
+                    <p>Funciona perfeitamente sem internet. Acesse e edite tudo a qualquer momento, em qualquer lugar. Ideal para estudar, trabalhar e organizar sem depender de conexão.</p>
+                </div>
+                <div class="about-card">
+                    <span class="about-card-emoji">💰</span>
+                    <h3>Totalmente Gratuito</h3>
+                    <p>Sem limites artificiais, sem freemium, sem assinaturas. Todas as funcionalidades disponíveis para todos, sempre. Um projeto feito com paixão.</p>
+                </div>
+                <div class="about-card">
+                    <span class="about-card-emoji">🎓</span>
+                    <h3>Feito para Estudar</h3>
+                    <p>Flashcards, quizzes, timer Pomodoro e IA integrada para auxiliar nos estudos. Ferramentas pensadas especificamente para otimizar seu aprendizado.</p>
+                </div>
+                <div class="about-card">
+                    <span class="about-card-emoji">🚀</span>
+                    <h3>Leve e Rápido</h3>
+                    <p>Interface moderna e responsiva que carrega instantaneamente. Nada de esperar, nada de travamentos. Performance excepcional mesmo em dispositivos antigos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="recursos" class="section features-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-title-emoji">✨</span>
+                <span>Recursos Principais</span>
+            </h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-emoji">📝</span>
+                    <h4>Notas Ricas</h4>
+                    <p>Editor completo com formatação</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">✅</span>
+                    <h4>Tarefas</h4>
+                    <p>Gestão com prioridades e prazos</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">📅</span>
+                    <h4>Calendário</h4>
+                    <p>Visualização mensal de eventos</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">⏱️</span>
+                    <h4>Pomodoro</h4>
+                    <p>Timer configurável para foco</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">🎯</span>
+                    <h4>Hábitos</h4>
+                    <p>Rastreamento com sequências</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">🦞</span>
+                    <h4>Flashcards</h4>
+                    <p>Sistema completo para revisão</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">🧠</span>
+                    <h4>Quizzes</h4>
+                    <p>Múltipla escolha e discursivo</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">📄</span>
+                    <h4>Editor WEBpro</h4>
+                    <p>Documentos profissionais</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">📊</span>
+                    <h4>SLIDEpro</h4>
+                    <p>Criador de apresentações</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">🤖</span>
+                    <h4>Estudo Profundo</h4>
+                    <p>IA com múltiplos modos</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">📈</span>
+                    <h4>Análises</h4>
+                    <p>Estatísticas e conquistas</p>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-emoji">🎨</span>
+                    <h4>Temas</h4>
+                    <p>Claro, escuro e personalizado</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-title-emoji">📥</span>
+                <span>Download</span>
+            </h2>
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="download-version">v1.0.8</div>
+                    <div class="download-label">VERSÃO ANTERIOR</div>
+                    <div class="download-size">📦 Tamanho: 199 KB</div>
+                    <ul class="download-features">
+                        <li>Funcionalidades principais testadas</li>
+                        <li>Interface clássica</li>
+                        <li>Ideal para uso básico</li>
+                        <li>Menor consumo de recursos</li>
+                    </ul>
+                    <a href="https://github.com/armandoerthalcarvalho/teriaki/releases/v1.0.8/download/teriaki_v1.0.8.html" download="Teriaki_v1.0.8.html" class="download-btn">
+                        <span>📥 Baixar v1.0.8</span>
+                    </a>
+                </div>
+
+                <div class="download-card current">
+                    <div class="download-version">v2.0.0</div>
+                    <div class="download-label">🔥 VERSÃO ATUAL</div>
+                    <div class="download-size">📦 Tamanho: 412 KB</div>
+                    <ul class="download-features">
+                        <li>Editor de Texto WEBpro completo</li>
+                        <li>Criador de Apresentações SLIDEpro</li>
+                        <li>Estudo Profundo com IA (Groq)</li>
+                        <li>Novos recursos </li>
+                        <li>12 temas no SLIDEpro</li>
+                        <li>26 transições de slides</li>
+                    </ul>
+                    <a href="https://github.com/armandoerthalcarvalho/teriaki/releases/v2.0.0/download/teriaki_v2.0.0.html" download="Teriaki_v2.0.0.html" class="download-btn">
+                        <span>⭐ Baixar v2.0.0</span>
+                    </a>
+                    
+                </div>
+            </div>
+
+            <div class="download-instructions">
+                <h3>📋 Como Usar</h3>
+                <p>
+                    Após baixar o arquivo HTML, basta abrir no seu navegador preferido (Chrome, Firefox, Edge, Safari). Todos os dados são salvos automaticamente no seu dispositivo. Para usar em múltiplos dispositivos, você pode exportar e importar seus dados através das configurações.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="noticias" class="section features-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-title-emoji">📰</span>
+                <span>Notícias do Projeto</span>
+            </h2>
+            <div class="news-timeline">
+                <div class="news-item">
+                    <div class="news-date">16 DE FEVEREIRO DE 2026</div>
+                    <h3 class="news-title">⚠️ Versão v1.0.8 vai ter disponibilidade reduzida em breve</h3>
+                    <p class="news-content">
+                        Após o lançamento da v2.1.0, a versão v1.0.8 permanecerá disponível para download por um período limitado. Recomendamos que os usuários atualizem para a nova versão para aproveitar os recursos aprimorados e as melhorias de desempenho.
+                    </p>
+                    <span class="news-badge">AVISO</span>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">16 DE FEVEREIRO DE 2026</div>
+                    <h3 class="news-title">🚀 Atualizações no desenvolvimento da v2.1.0</h3>
+                    <p class="news-content">
+                        Devido a automações no desenvolvimento, a v2.1.0 está progredindo mais rápido do que o esperado. Estamos antecipando o lançamento para 18 de fevereiro, trazendo melhorias de desempenho e novos recursos.
+                    </p>
+                    <span class="news-badge">ATUALIZAÇÃO</span>
+                </div>
+                <div class="news-item">
+                    <div class="news-date">16 DE FEVEREIRO DE 2026</div>
+                    <h3 class="news-title">🚀 Desenvolvimento da v2.1.0</h3>
+                    <p class="news-content">
+                        Estamos iniciando o desenvolvimento da v2.1.0, com prazo estipulado para 28 de fevereiro
+                    </p>
+                    <span class="news-badge">NOVIDADE</span>
+                </div>
+                    <div class = "news-item">
+                    <div class="news-date">15 DE FEVEREIRO DE 2026</div>
+                    <h3 class="news-title">🎉 Lançamento do TeriakiAbout</h3>
+                    <p class="news-content">
+                        Estamos lançando oficialmente a página TeriakiAbout! Agora você pode acompanhar todas as novidades do projeto, baixar as versões mais recentes e enviar suas sugestões diretamente para nós.
+                    </p>
+                    <span class="news-badge">NOVIDADE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="licenca" class="section features-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="section-title-emoji">⚖️</span>
+                <span>Licenciamento</span>
+            </h2>
+            <p class="license-intro">
+                O Teriaki é licenciado sob a licença Creative Commons CC BY-NC-SA 4.0. Esta licença permite que você compartilhe e adapte o projeto, desde que dê os devidos créditos, não use comercialmente e compartilhe sob a mesma licença.
+            </p>
+
+            <div class="license-grid">
+                <div class="license-card recommended">
+                    <span class="license-emoji">🎨</span>
+                    <h3 class="license-title">CC BY-NC-SA 4.0</h3>
+                    <div class="license-tag">✅ LICENÇA ATIVA</div>
+                    <p class="license-description">
+                        Creative Commons Atribuição-NãoComercial-CompartilhaIgual 4.0 Internacional
+                    </p>
+                    <ul class="license-list license-pros">
+                        <li><strong>Atribuição (BY):</strong> Créditos devem ser dados ao autor original</li>
+                        <li><strong>Não Comercial (NC):</strong> Não pode ser usado para fins comerciais</li>
+                        <li><strong>Compartilha Igual (SA):</strong> Derivações devem usar a mesma licença</li>
+                        <li>Comunidade pode contribuir e adaptar</li>
+                        <li>Transparência e código aberto</li>
+                        <li>Proteção contra uso comercial indevido</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta-box">
+                <h3>📖 Saiba Mais Sobre a Licença</h3>
+                <p>
+                    Para mais informações sobre a licença CC BY-NC-SA 4.0 e o que você pode fazer com o Teriaki, visite o site oficial da Creative Commons ou entre em contato através da seção de sugestões.
+                </p>
+                <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt-br" target="_blank" class="download-btn">
+                    <span>🔗 Ver Licença Completa</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#sobre">Sobre</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#download">Download</a>
+                <a href="#noticias">Notícias</a>
+                <a href="#licenca">Licença</a>
+            </div>
+            <div class="footer-copyright">
+                <p style="margin-bottom: 0.75rem;">
+                    <span class="footer-emoji">🍣</span> <strong>Teriaki</strong> - Seu gerenciador de vida pessoal
+                </p>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                    Feito com <span class="footer-emoji">💙</span> para organizar, estudar e produzir melhor
+                </p>
+                <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 1.25rem;">
+                    © 2025-2026 Teriaki Project. Licenciado sob <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.pt-br" target="_blank" style="color: var(--accent); text-decoration: none;">CC BY-NC-SA 4.0</a>.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('active');
+        }
+
+        // Active nav link highlighting
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = 'var(--ginger-orange)';
+                }
+            });
+        });
+
+        // Easter egg console
+        console.log('%c🍣 Bem-vindo ao Teriaki!', 'font-size: 24px; font-weight: bold; color: #FF6B6B;');
+        console.log('%cEste projeto está em desenvolvimento ativo.', 'font-size: 14px; color: #51CF66;');
+
+    </script>
+</body>
+</html>

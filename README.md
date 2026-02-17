@@ -25,8 +25,11 @@ Teriaki é uma aplicação web single-file que funciona inteiramente no navegado
 
 | Versão | Arquivo | Descrição |
 |--------|---------|-----------|
-| v2.0.0 | `teriaki_v2.0.0.html` | Versão atual — Editor WEBpro, SLIDEpro, Estudo Profundo com IA, interface renovada |
-| v1.0.8 | `teriaki_v1.0.8.html` | Versão anterior — Funcionalidades principais, interface clássica, menor consumo de recursos |
+| v2.1.0 | `teriaki_v2.1.0.html` | Versão atual — Criação do Enterprise e correção de bugs|
+| v2.0.0 | `teriaki_v2.0.0.html` | Versão anterior — Editor WEBpro, SLIDEpro, Estudo Profundo com IA, interface renovada | 
+| v1.0.8 | `teriaki_v1.0.8.html` | Primeria versão estável — Funcionalidades principais, interface clássica, menor consumo de recursos |
+
+⚠️ Importante: a versão v2.0.0 está permanentemente suspensa devido a bugs críticos
 
 ## Como Usar
 

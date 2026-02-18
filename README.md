@@ -20,6 +20,7 @@ Teriaki é uma aplicação web single-file que funciona inteiramente no navegado
 - 🤖 **Estudo Profundo** — IA integrada com múltiplos modos (via Groq)
 - 📈 **Análises** — Estatísticas e conquistas
 - 🎨 **Temas** — Claro, escuro e personalizado
+- 🏭 **Enterprise** — Automatize suas tarefas de forma realmente útil com IA
 
 ## Versões Disponíveis
 
